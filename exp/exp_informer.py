@@ -70,7 +70,7 @@ class Exp_Informer(Exp_Basic):
             'Solar':Dataset_Custom,
             'custom':Dataset_Custom,
         }
-        Data = data_dict[self.args.data]
+        Data = data_dict[self.args.data]     # en focntion de nom pour choisir le type de fucntion
         timeenc = 0 if args.embed!='timeF' else 1
 
         if flag == 'test':
