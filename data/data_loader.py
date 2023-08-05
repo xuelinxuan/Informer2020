@@ -235,7 +235,7 @@ class Dataset_Custom(Dataset):
         num_vali = len(df_raw) - num_train - num_test
         border1s = [0, num_train-self.seq_len, len(df_raw)-num_test-self.seq_len]   # trois points de départ
         border2s = [num_train, num_train+num_vali, len(df_raw)]                     # trois points final 
-        border1 = border1s[self.set_type]
+        border1 = border1s[self.set_type]                                           # type_map = {'train':0, 'val':1, 'test':2}
         border2 = border2s[self.set_type]
         
         if self.features=='M' or self.features=='MS':
