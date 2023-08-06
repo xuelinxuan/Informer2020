@@ -28,15 +28,15 @@ class Dataset_Custom(Dataset):
             self.pred_len = size[2]
         # init
         assert flag in ['train', 'test', 'val']
-        type_map = {'train':0, 'val':1, 'test':2}
+        type_map      = {'train':0, 'val':1, 'test':2}
         self.set_type = type_map[flag]
         
-        self.features = features
-        self.target = target
-        self.scale = scale
-        self.inverse = inverse
-        self.timeenc = timeenc
-        self.freq = freq
+        self.features  = features
+        self.target    = target
+        self.scale     = scale
+        self.inverse   = inverse
+        self.timeenc   = timeenc
+        self.freq      = freq
         self.cols=cols
         self.root_path = root_path
         self.data_path = data_path
@@ -58,12 +58,12 @@ class Dataset_Custom(Dataset):
         df_raw = df_raw[['date']+cols+[self.target]]
 
         num_train = int(len(df_raw)*0.7)
-        num_test = int(len(df_raw)*0.2)
-        num_vali = len(df_raw) - num_train - num_test
-        border1s = [0, num_train-self.seq_len, len(df_raw)-num_test-self.seq_len]   # trois trois fenetre est deja avant le la bordure de fenetre
-        border2s = [num_train, num_train+num_vali, len(df_raw)]                     # trois points final 
-        border1 = border1s[self.set_type]                                           # type_map = {'train':0, 'val':1, 'test':2}
-        border2 = border2s[self.set_type]
+        num_test  = int(len(df_raw)*0.2)
+        num_vali  = len(df_raw) - num_train - num_test
+        border1s  = [0, num_train-self.seq_len, len(df_raw)-num_test-self.seq_len]   # trois trois fenetre est deja avant le la bordure de fenetre
+        border2s  = [num_train, num_train+num_vali, len(df_raw)]                     # trois points final 
+        border1   = border1s[self.set_type]                                           # type_map = {'train':0, 'val':1, 'test':2}
+        border2   = border2s[self.set_type]
         
         if self.features=='M' or self.features=='MS':
             cols_data = df_raw.columns[1:]
