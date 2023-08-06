@@ -85,22 +85,22 @@ class Exp_Informer(Exp_Basic):
         data_set = Data(
             root_path=args.root_path,
             data_path=args.data_path,
-            flag=flag,
-            size=[args.seq_len, args.label_len, args.pred_len],
-            features=args.features,
-            target=args.target,
-            inverse=args.inverse,
-            timeenc=timeenc,
-            freq=freq,
-            cols=args.cols
+            flag     =flag,
+            size     =[args.seq_len, args.label_len, args.pred_len],
+            features =args.features,
+            targe    t=args.target,
+            inverse  =args.inverse,
+            timeenc  =timeenc,
+            freq     =freq,
+            cols     =args.cols
         )
         print(flag, len(data_set))
         data_loader = DataLoader(
             data_set,
-            batch_size=batch_size,
-            shuffle=shuffle_flag,
+            batch_size =batch_size,
+            shuffle    =shuffle_flag,
             num_workers=args.num_workers,
-            drop_last=drop_last)
+            drop_last  =drop_last)
 
         return data_set, data_loader
 
@@ -126,8 +126,8 @@ class Exp_Informer(Exp_Basic):
 
     def train(self, setting):
         train_data, train_loader = self._get_data(flag = 'train')
-        vali_data, vali_loader = self._get_data(flag = 'val')
-        test_data, test_loader = self._get_data(flag = 'test')
+        vali_data,  vali_loader  = self._get_data(flag = 'val')
+        test_data,  test_loader  = self._get_data(flag = 'test')
 
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
