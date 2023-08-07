@@ -157,8 +157,7 @@ class Exp_Informer(Exp_Basic):
                 iter_count += 1
                 
                 model_optim.zero_grad()
-                pred, true = self._process_one_batch(
-                    train_data, batch_x, batch_y, batch_x_mark, batch_y_mark)
+                pred, true = self._process_one_batch(train_data, batch_x, batch_y, batch_x_mark, batch_y_mark)  # process_one_batch est en dessous 
                 loss = criterion(pred, true)
                 train_loss.append(loss.item())
                 
@@ -261,6 +260,7 @@ class Exp_Informer(Exp_Basic):
         
         return
 
+    # convertir les donne en format que les tensorflow qui peut acccepter
     def _process_one_batch(self, dataset_object, batch_x, batch_y, batch_x_mark, batch_y_mark):
         batch_x = batch_x.float().to(self.device)
         batch_y = batch_y.float()
