@@ -88,7 +88,7 @@ class Exp_Informer(Exp_Basic):
             flag     =flag,
             size     =[args.seq_len, args.label_len, args.pred_len],
             features =args.features,
-            targe    t=args.target,
+            target   =args.target,
             inverse  =args.inverse,
             timeenc  =timeenc,
             freq     =freq,
