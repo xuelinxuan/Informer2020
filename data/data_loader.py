@@ -181,20 +181,24 @@ class Dataset_ETT_hour(Dataset):
         else:
             self.data_y = data[border1:border2]
         self.data_stamp = data_stamp
-    
+
+
+
+    # parcourir les index pour 
+    # 0（s_begi）....48（r_begin）...96（s_end）...120（r_end）
     def __getitem__(self, index):
         s_begin = index
-        s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len 
-        r_end = r_begin + self.label_len + self.pred_len
+        s_end   = s_begin + self.seq_len
+        r_begin = s_end   - self.label_len 
+        r_end   = r_begin + self.label_len + self.pred_len
 
-        seq_x = self.data_x[s_begin:s_end]
+        seq_x = self.data_x[s_begin:s_end]            # variable normal
         if self.inverse:
             seq_y = np.concatenate([self.data_x[r_begin:r_begin+self.label_len], self.data_y[r_begin+self.label_len:r_end]], 0)
         else:
-            seq_y = self.data_y[r_begin:r_end]
-        seq_x_mark = self.data_stamp[s_begin:s_end]
-        seq_y_mark = self.data_stamp[r_begin:r_end]
+            seq_y = self.data_y[r_begin:r_end]        # variable normal
+        seq_x_mark = self.data_stamp[s_begin:s_end]   # variable temporele
+        seq_y_mark = self.data_stamp[r_begin:r_end]   # variable temporele  
 
         return seq_x, seq_y, seq_x_mark, seq_y_mark
     
@@ -203,6 +207,25 @@ class Dataset_ETT_hour(Dataset):
 
     def inverse_transform(self, data):
         return self.scaler.inverse_transform(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Dataset_ETT_minute(Dataset):
     def __init__(self, root_path, flag='train', size=None, 
