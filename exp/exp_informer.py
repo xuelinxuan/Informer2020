@@ -129,15 +129,18 @@ class Exp_Informer(Exp_Basic):
         vali_data,  vali_loader  = self._get_data(flag = 'val')
         test_data,  test_loader  = self._get_data(flag = 'test')
 
-        path = os.path.join(self.args.checkpoints, setting)
+        path = os.path.join(self.args.checkpoints, setting)  # creer une nouveau chemian pour sauvgarder des parametre
         if not os.path.exists(path):
             os.makedirs(path)
 
         time_now = time.time()
+
+        # 1.Validation d'arrêt précoce
         
         train_steps = len(train_loader)
         early_stopping = EarlyStopping(patience=self.args.patience, verbose=True)
-        
+
+        # 2.optimiseur
         model_optim = self._select_optimizer()
         criterion =  self._select_criterion()
 
