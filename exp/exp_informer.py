@@ -260,6 +260,11 @@ class Exp_Informer(Exp_Basic):
         
         return
 
+
+
+
+
+    
     # convertir les donne en format que les tensorflow qui peut acccepter
     def _process_one_batch(self, dataset_object, batch_x, batch_y, batch_x_mark, batch_y_mark):
         batch_x = batch_x.float().to(self.device)
@@ -270,10 +275,13 @@ class Exp_Informer(Exp_Basic):
 
         # decoder input
         if self.args.padding==0:
-            dec_inp = torch.zeros([batch_y.shape[0], self.args.pred_len, batch_y.shape[-1]]).float()
+            dec_inp = torch.zeros([batch_y.shape[0], self.args.pred_len, batch_y.shape[-1]]).float()       # c'est a dire ,la derniere partie  est 0
         elif self.args.padding==1:
-            dec_inp = torch.ones([batch_y.shape[0], self.args.pred_len, batch_y.shape[-1]]).float()
-        dec_inp = torch.cat([batch_y[:,:self.args.label_len,:], dec_inp], dim=1).float().to(self.device)
+            dec_inp = torch.ones([batch_y.shape[0], self.args.pred_len, batch_y.shape[-1]]).float()        # c'est a dire ,Vecteur de contexte est 1
+                                    # commerce a zero ,label_len:48-72,dec_inp:0
+        dec_inp = torch.cat([batch_y[:,:self.args.label_len,:], dec_inp], dim=1).float().to(self.device)   #dim=1 ：contatnener deux vecteur
+
+        
         # encoder - decoder
         if self.args.use_amp:
             with torch.cuda.amp.autocast():
