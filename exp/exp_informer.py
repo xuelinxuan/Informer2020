@@ -83,11 +83,11 @@ class Exp_Informer(Exp_Basic):
         else:
             shuffle_flag = True; drop_last = True; batch_size = args.batch_size; freq=args.freq
         data_set = Data(
-            root_path=args.root_path,
-            data_path=args.data_path,
+            root_path=args.root_path,    # './ETDataset/ETT-small/
+            data_path=args.data_path,    # nom d'ensemble de donnee :my_data.csv
             flag     =flag,
             size     =[args.seq_len, args.label_len, args.pred_len],
-            features =args.features,
+            features =args.features,       #features: M ms S
             target   =args.target,
             inverse  =args.inverse,
             timeenc  =timeenc,
@@ -125,9 +125,9 @@ class Exp_Informer(Exp_Basic):
         return total_loss
 
     def train(self, setting):
-        train_data, train_loader = self._get_data(flag = 'train')
-        vali_data,  vali_loader  = self._get_data(flag = 'val')
-        test_data,  test_loader  = self._get_data(flag = 'test')
+        train_data, train_loader = self._get_data(flag = 'train')    # les resultat apres exectation def get_data: data_set, data_loader
+        vali_data,  vali_loader  = self._get_data(flag = 'val')      # les resultat apres exectation def get_data: data_set, data_loader
+        test_data,  test_loader  = self._get_data(flag = 'test')     # les resultat apres exectation def get_data: data_set, data_loader
 
         path = os.path.join(self.args.checkpoints, setting)  # creer une nouveau chemian pour sauvgarder des parametre
         if not os.path.exists(path):
