@@ -190,18 +190,18 @@ class Dataset_Pred(Dataset):
         df_stamp.date = list(tmp_stamp.date.values) + list(pred_dates[1:])
         data_stamp = time_features(df_stamp, timeenc=self.timeenc, freq=self.freq[-1:])
 
-        self.data_x = data[border1:border2]
+        self.data_x = data[border1:border2]   # border1 fin de train , debut de test border2:fin de test : longeur de test 
         if self.inverse:
             self.data_y = df_data.values[border1:border2]
         else:
-            self.data_y = data[border1:border2]
+            self.data_y = data[border1:border2]  # longeur de test 
         self.data_stamp = data_stamp
     
     def __getitem__(self, index):
-        s_begin = index
-        s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        s_begin = index                                    # ensemble d'entraînement point de départ, point final
+        s_end = s_begin + self.seq_len                     # ensemble d'entraînement point de départ, point final
+        r_begin = s_end - self.label_len                   # 验证集的开始
+        r_end = r_begin + self.label_len + self.pred_len  # 验证集的结束
 
         seq_x = self.data_x[s_begin:s_end]
         if self.inverse:
@@ -214,7 +214,7 @@ class Dataset_Pred(Dataset):
         return seq_x, seq_y, seq_x_mark, seq_y_mark
     
     def __len__(self):
-        return len(self.data_x) - self.seq_len + 1
+        return len(self.data_x) - self.seq_len + 1  # 开始于测试集的前一个窗口
 
     def inverse_transform(self, data):
         return self.scaler.inverse_transform(data)
