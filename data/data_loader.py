@@ -94,7 +94,7 @@ class Dataset_Custom(Dataset):
         else:
             self.data_y = data[border1:border2]
         self.data_stamp = data_stamp
-    
+    # convertitr la forme de tenseur requise par le modele
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
