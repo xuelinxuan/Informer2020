@@ -127,8 +127,8 @@ class Dataset_Custom(Dataset):
 
 class Dataset_Pred(Dataset):
     def __init__(self, root_path, flag='pred', size=None, 
-                 features='S', data_path='ETTh1.csv', 
-                 target='OT', scale=True, inverse=False, timeenc=0, freq='15min', cols=None):
+                 features='M', data_path='my_data.csv', 
+                 target='OT', scale=False, inverse=False, timeenc=0, freq='d', cols=None):
         # size [seq_len, label_len, pred_len]
         # info
         if size == None:
@@ -142,13 +142,13 @@ class Dataset_Pred(Dataset):
         # init
         assert flag in ['pred']
         
-        self.features = features
-        self.target = target
-        self.scale = scale
-        self.inverse = inverse
-        self.timeenc = timeenc
-        self.freq = freq
-        self.cols=cols
+        self.features  = features
+        self.target    = target
+        self.scale     = scale
+        self.inverse   = inverse
+        self.timeenc   = timeenc
+        self.freq      = freq
+        self.cols      =cols
         self.root_path = root_path
         self.data_path = data_path
         self.__read_data__()
@@ -190,11 +190,11 @@ class Dataset_Pred(Dataset):
         df_stamp.date = list(tmp_stamp.date.values) + list(pred_dates[1:])
         data_stamp = time_features(df_stamp, timeenc=self.timeenc, freq=self.freq[-1:])
 
-        self.data_x = data[border1:border2]   # border1 fin de train , debut de test border2:fin de test : longeur de test 
+        self.data_x = data[border1:border2]      # border1 fin de train , debut de test border2:fin de test : longeur de test 
         if self.inverse:
             self.data_y = df_data.values[border1:border2]
         else:
-            self.data_y = data[border1:border2]  # longeur de test 
+            self.data_y = data[border1:border2]   # longeur de test 
         self.data_stamp = data_stamp
     
     def __getitem__(self, index):
