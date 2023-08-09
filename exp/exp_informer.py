@@ -147,6 +147,10 @@ class Exp_Informer(Exp_Basic):
         if self.args.use_amp:
             scaler = torch.cuda.amp.GradScaler()
 
+         # Step 1: Add empty lists to collect predictions and true values
+        train_preds = []
+        train_trues = []
+
         for epoch in range(self.args.train_epochs):
             iter_count = 0
             train_loss = []
@@ -161,6 +165,10 @@ class Exp_Informer(Exp_Basic):
                 loss = criterion(pred, true)
                 train_loss.append(loss.item())
                 
+                Step 2: Collect predictions and true values
+                train_preds.append(pred.detach().cpu().numpy())
+                train_trues.append(true.detach().cpu().numpy())
+
                 if (i+1) % 100==0:
                     print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
                     speed = (time.time()-time_now)/iter_count
@@ -190,7 +198,17 @@ class Exp_Informer(Exp_Basic):
                 break
 
             adjust_learning_rate(model_optim, epoch+1, self.args)
-            
+
+            # Step 3: Adjust the shape of the lists
+            train_preds = np.array(train_preds)
+            train_trues = np.array(train_trues)
+            train_preds = train_preds.reshape(-1, train_preds.shape[-2], train_preds.shape[-1])
+            train_trues = train_trues.reshape(-1, train_trues.shape[-2], train_trues.shape[-1])
+
+            # Step 4: Save the reshaped predictions and true values
+            np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
+            np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
+    
         best_model_path = path+'/'+'checkpoint.pth'
         self.model.load_state_dict(torch.load(best_model_path))
         
@@ -212,10 +230,10 @@ class Exp_Informer(Exp_Basic):
 
         preds = np.array(preds)
         trues = np.array(trues)
-        print('test shape:', preds.shape, trues.shape)
+        # print('test shape:', preds.shape, trues.shape)
         preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
-        print('test shape:', preds.shape, trues.shape)
+        # print('test shape:', preds.shape, trues.shape)
 
         # result save
         folder_path = './results/' + setting +'/'
