@@ -170,7 +170,7 @@ class Exp_Informer(Exp_Basic):
                 train_trues.append(true.detach().cpu().numpy())
 
                 if (i+1) % 100==0:
-                    print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
+                    #print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
                     speed = (time.time()-time_now)/iter_count
                     left_time = speed*((self.args.train_epochs - epoch)*train_steps - i)
                     #print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
@@ -194,7 +194,7 @@ class Exp_Informer(Exp_Basic):
                 epoch + 1, train_steps, train_loss, vali_loss, test_loss))
             early_stopping(vali_loss, self.model, path)
             if early_stopping.early_stop:
-                print("Early stopping")
+                #print("Early stopping")
                 break
 
             adjust_learning_rate(model_optim, epoch+1, self.args)
