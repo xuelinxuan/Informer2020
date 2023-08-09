@@ -161,13 +161,13 @@ class Exp_Informer(Exp_Basic):
                 iter_count += 1
                 
                 model_optim.zero_grad()
-                pred, true = self._process_one_batch(train_data, batch_x, batch_y, batch_x_mark, batch_y_mark)  # process_one_batch est en dessous 
-                loss = criterion(pred, true)
+                train_pred, train_true = self._process_one_batch(train_data, batch_x, batch_y, batch_x_mark, batch_y_mark)  # process_one_batch est en dessous 
+                loss = criterion(train_pred, train_true)
                 train_loss.append(loss.item())
                 
                 # Step 2: Collect predictions and true values
-                train_preds.append(pred.detach().cpu().numpy())
-                train_trues.append(true.detach().cpu().numpy())
+                train_preds.append(train_pred.detach().cpu().numpy())
+                train_trues.append(train_true.detach().cpu().numpy())
 
                 if (i+1) % 100==0:
                     #print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
@@ -215,8 +215,8 @@ class Exp_Informer(Exp_Basic):
 
             # Step 4: Save the reshaped predictions and true values
             np.save(folder_path+'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-            np.save(folder_path+'pred.npy', train_preds)                                      # saugarder les valeur prediction
-            np.save(folder_path+'true.npy', train_trues)  
+            np.save(folder_path+'train_pred.npy', train_preds)                                      # saugarder les valeur prediction
+            np.save(folder_path+'train_true.npy', train_trues)  
             #np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
             #np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
 
