@@ -147,7 +147,7 @@ class Exp_Informer(Exp_Basic):
         if self.args.use_amp:
             scaler = torch.cuda.amp.GradScaler()
 
-         # Step 1: Add empty lists to collect predictions and true values
+        # Step 1: Add empty lists to collect predictions and true values
         train_preds = []
         train_trues = []
 
@@ -165,7 +165,7 @@ class Exp_Informer(Exp_Basic):
                 loss = criterion(pred, true)
                 train_loss.append(loss.item())
                 
-                Step 2: Collect predictions and true values
+                # Step 2: Collect predictions and true values
                 train_preds.append(pred.detach().cpu().numpy())
                 train_trues.append(true.detach().cpu().numpy())
 
