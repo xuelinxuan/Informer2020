@@ -217,10 +217,7 @@ class Exp_Informer(Exp_Basic):
             np.save(folder_path+'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
             np.save(folder_path+'train_pred.npy', train_preds)                                      # saugarder les valeur prediction
             np.save(folder_path+'train_true.npy', train_trues)  
-            #np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
-            #np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
 
-            # Re-initialize train_preds and train_trues as empty lists for the next epoch
             train_preds = []
             train_trues = []
     
