@@ -208,6 +208,10 @@ class Exp_Informer(Exp_Basic):
             # Step 4: Save the reshaped predictions and true values
             np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
             np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
+
+            # Re-initialize train_preds and train_trues as empty lists for the next epoch
+            train_preds = []
+            train_trues = []
     
         best_model_path = path+'/'+'checkpoint.pth'
         self.model.load_state_dict(torch.load(best_model_path))
