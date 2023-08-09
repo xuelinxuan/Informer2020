@@ -205,9 +205,20 @@ class Exp_Informer(Exp_Basic):
             train_preds = train_preds.reshape(-1, train_preds.shape[-2], train_preds.shape[-1])
             train_trues = train_trues.reshape(-1, train_trues.shape[-2], train_trues.shape[-1])
 
+            # result save
+            folder_path = './results/' + setting +'/'
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+                
+            mae, mse, rmse, mape, mspe = metric(train_preds, train_trues)
+            print('mse:{}, mae:{}'.format(mse, mae))
+
             # Step 4: Save the reshaped predictions and true values
-            np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
-            np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
+            np.save(folder_path+'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
+            np.save(folder_path+'pred.npy', train_preds)                                      # saugarder les valeur prediction
+            np.save(folder_path+'true.npy', train_trues)  
+            #np.save(os.path.join(path, f'train_preds_epoch_{epoch}.npy'), train_preds)
+            #np.save(os.path.join(path, f'train_trues_epoch_{epoch}.npy'), train_trues)
 
             # Re-initialize train_preds and train_trues as empty lists for the next epoch
             train_preds = []
