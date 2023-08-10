@@ -23,11 +23,11 @@ class Dataset_Custom(Dataset):
             self.label_len = 24*4
             self.pred_len = 24*4
         else:
-            self.seq_len = size[0]
+            self.seq_len   = size[0]
             self.label_len = size[1]
-            self.pred_len = size[2]
+            self.pred_len  = size[2]
         # init
-        assert flag in ['train', 'test', 'val']
+        assert flag in ['train   ', 'test' , 'val']
         type_map      = {'train':0, 'val':1, 'test':2}
         self.set_type = type_map[flag]
         
@@ -45,8 +45,7 @@ class Dataset_Custom(Dataset):
     def __read_data__(self):
         #一.标准化
         self.scaler = StandardScaler()
-        df_raw = pd.read_csv(os.path.join(self.root_path,
-                                          self.data_path))
+        df_raw = pd.read_csv(os.path.join(self.root_path, self.data_path))
         '''
         df_raw.columns: ['date', ...(other features), target feature]
         '''
