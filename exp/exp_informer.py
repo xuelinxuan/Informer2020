@@ -22,7 +22,7 @@ class Exp_Informer(Exp_Basic):
     def __init__(self, args):
         super(Exp_Informer, self).__init__(args)
     
-    def _build_model(self):
+    def build_model(self):
         model_dict = {
             'informer':Informer,
             'informerstack':InformerStack,
@@ -57,7 +57,7 @@ class Exp_Informer(Exp_Basic):
             model = nn.DataParallel(model, device_ids=self.args.device_ids)
         return model
 
-    def _get_data(self, flag):
+    def get_data(self, flag):
         args = self.args
 
         data_dict = {
@@ -104,7 +104,7 @@ class Exp_Informer(Exp_Basic):
 
         return data_set, data_loader
 
-    def _select_optimizer(self):
+    def select_optimizer(self):
         model_optim = optim.Adam(self.model.parameters(), lr=self.args.learning_rate)
         return model_optim
     
@@ -293,7 +293,7 @@ class Exp_Informer(Exp_Basic):
 
     
     # convertir les donne en format que les tensorflow qui peut acccepter
-    def _process_one_batch(self, dataset_object, batch_x, batch_y, batch_x_mark, batch_y_mark):
+    def process_one_batch(self, dataset_object, batch_x, batch_y, batch_x_mark, batch_y_mark):
         batch_x = batch_x.float().to(self.device)
         batch_y = batch_y.float()
 
